@@ -1,7 +1,5 @@
 package com.api.parkingcontrol.models;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
