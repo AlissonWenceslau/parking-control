@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -22,6 +23,10 @@ public class ParkingSpotController {
         this.parkingSpotService = parkingSpotService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<ParkingSpotModel>> getAllParkingSot(){
+        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.findAll());
+    }
     @PostMapping
     public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
         if(parkingSpotService.existsByLicensePlateCar(parkingSpotDto.getLicensePlateCar())){
