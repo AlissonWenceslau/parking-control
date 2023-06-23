@@ -29,7 +29,7 @@ public class ParkingSpotController {
     public ResponseEntity<List<ParkingSpotModel>> getAllParkingSot(){
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.findAll());
     }
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getOneParkingSpot(@PathVariable(value = "id")UUID id){
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.fidById(id);
         if(!parkingSpotModelOptional.isPresent()){
