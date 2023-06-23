@@ -29,6 +29,10 @@ public class ParkingSpotService {
         return parkingSpotRepository.save(parkingSpotModel);
     }
 
+    @Transactional
+    public void deleteById(UUID id){
+        parkingSpotRepository.deleteById(id);
+    }
     public boolean existsByLicensePlateCar(String licensePlateCar){
         return parkingSpotRepository.existsByLicensePlateCar(licensePlateCar);
     }
@@ -36,7 +40,7 @@ public class ParkingSpotService {
     public boolean existsByParkingSpotNumber(String parkingSpotNumber){
         return parkingSpotRepository.existsByParkingSpotNumber(parkingSpotNumber);
     }
-    
+
     public boolean existsByApartmentAndBlock(String apartment, String block){
         return parkingSpotRepository.existsByApartmentAndBlock(apartment, block);
     }
