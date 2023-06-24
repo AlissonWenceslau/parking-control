@@ -55,6 +55,23 @@ public class ParkingSpotController {
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody @Valid ParkingSpotDto parkingSpotDto){
+        Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.fidById(id);
+        if (!parkingSpotModelOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found!");
+        }
+        ParkingSpotModel parkingSpotModel = parkingSpotModelOptional.get();
+        parkingSpotModel.setParkingSpotNumber(parkingSpotDto.getParkingSpotNumber());
+        parkingSpotModel.setLicensePlateCar(parkingSpotDto.getLicensePlateCar());
+        parkingSpotModel.setBrandCar(parkingSpotDto.getBrandCar());
+        parkingSpotModel.setModelCar(parkingSpotDto.getModelCar());
+        parkingSpotModel.setColorCar(parkingSpotDto.getColorCar());
+        parkingSpotModel.setResponsibleName(parkingSpotDto.getResponsibleName());
+        parkingSpotModel.setApartment(parkingSpotDto.getApartment());
+        parkingSpotModel.setBlock(parkingSpotDto.getBlock());
+        return  ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.save(parkingSpotModel));
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable(value = "id") UUID id){
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.fidById(id);
