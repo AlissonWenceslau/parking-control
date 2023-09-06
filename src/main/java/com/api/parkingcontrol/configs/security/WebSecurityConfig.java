@@ -14,7 +14,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.httpBasic() //Usa o tipo básico de autenticação
 		.and() //Tem função de unir requisição
 		.authorizeHttpRequests() //Autoriza as requisições
-		.anyRequest().authenticated(); //Usuário precisa de autenticação para acessar o endpoint
+		.anyRequest().authenticated()
+		.and()//Usuário precisa de autenticação para acessar o endpoint
+		.csrf().disable(); 
 	}
 	
 	
