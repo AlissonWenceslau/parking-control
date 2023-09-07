@@ -1,7 +1,9 @@
 package com.api.parkingcontrol.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -9,6 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +31,12 @@ public class UserModel implements UserDetails, Serializable {
 	private String username;
 	@Column(nullable = false)
 	private String password;
+	
+	@ManyToMany
+	@JoinTable(name = "tb_users_roles",
+	joinColumns = @JoinColumn(name = "user_id"),
+	inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<RoleModel> roles = new ArrayList<>();
 	
 	public UserModel() {
 		// TODO Auto-generated constructor stub
@@ -54,10 +65,14 @@ public class UserModel implements UserDetails, Serializable {
 		this.password = password;
 	}
 
+	public List<RoleModel> getRoles() {
+		return roles;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.roles;
 	}
 	
 	@Override
