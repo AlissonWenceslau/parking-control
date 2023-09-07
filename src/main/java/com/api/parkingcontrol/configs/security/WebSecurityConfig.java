@@ -5,12 +5,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SuppressWarnings("deprecation")
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	
+	final UserDetailsService userDetailsService;
+	
+	public WebSecurityConfig(UserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -20,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.authorizeHttpRequests() //Autoriza as requisições
 		.anyRequest().authenticated()
 		.and()//Usuário precisa de autenticação para acessar o endpoint
-		.csrf().disable(); 
+		.csrf().disable(); //Evita usuário malicioso enviar script quando habilitado utilizando um thymeleaf por exemplo, sem ser API Rest
 		
 		
 	}
@@ -28,10 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	//Autenticação do usuário customizada
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-		.withUser("alisson")
-		.password(passwordEncoder().encode("123"))
-		.roles("ADMIN");
+		auth.userDetailsService(userDetailsService)
+		.passwordEncoder(passwordEncoder());
 	}
 	
 	@Bean
